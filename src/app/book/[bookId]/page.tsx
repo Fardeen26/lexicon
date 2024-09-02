@@ -4,7 +4,6 @@ import { Book } from '@/types';
 import DownloadButton from './components/DownloadButton';
 
 const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
-    console.log('params', params);
     let book: Book | null = null;
     try {
         const response = await fetch(`${process.env.BACKEND_URL}/books/${params.bookId}`, {
