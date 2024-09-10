@@ -5,14 +5,14 @@ import React from 'react'
 
 const BookCard = ({book}: {book: Book}) => {
   return (
-    <div className="flex gap-5 border p-5 shadow-md rounded">
+    <div className="flex gap-5 border p-5 shadow-md rounded-xl">
             <Image
                 src={book.coverImage}
                 alt={book.title}
                 width={0}
                 height={0}
                 sizes="100vw"
-                style={{ width: 'auto', height: '12rem' }}
+                style={{ width: 'auto', height: '10rem', borderRadius: '10px' }}
             />
             <div>
                 <h2 className="line-clamp-2 text-xl font-bold text-primary-600 text-balance">

@@ -9,7 +9,6 @@ export default async function Home() {
     <div>
       <Banner />
       <Suspense fallback={<Loading />}>
-
       </Suspense>
       <BookList />      
       </div>
