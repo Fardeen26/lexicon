@@ -3,7 +3,7 @@ import BookCard from './BookCard';
 import { Book } from '@/types';
 
 const BookList = async () => {
-  const response = await fetch(`${process.env.BACKEND_URL}/books`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/books`, {
     cache: 'no-store'
   });
   

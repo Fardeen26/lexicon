@@ -6,7 +6,7 @@ import DownloadButton from './components/DownloadButton';
 const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
     let book: Book | null = null;
     try {
-        const response = await fetch(`${process.env.BACKEND_URL}/books/${params.bookId}`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/books/${params.bookId}`, {
             cache: 'no-store'
         });
         if (!response.ok) {
@@ -22,7 +22,7 @@ const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
     }
 
     return (
-        <div className="mx-auto grid max-w-6xl grid-cols-3 gap-10 px-5 py-10">
+        <div className="mx-auto grid max-w-6xl grid-cols-3 gap-10 px-5 py-10 h-[80.5vh]">
             <div className="col-span-2 pr-16 text-primary-950">
                 <h2 className="mb-5 text-5xl font-bold leading-[1.1]">{book.title}</h2>
                 <span className="font-semibold">by {book.author}</span>
