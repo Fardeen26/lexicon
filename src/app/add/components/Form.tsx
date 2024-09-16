@@ -20,14 +20,16 @@ const Form = () => {
   };
 
   const [bookData, setBookData] = useState<BookData>(initialBookData);
+  const [isAdding, setIsAdding] = useState<Boolean>(false)
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookData({ ...bookData, [e.target.name]: e.target.value });
   };
 
-  const submitBook = async (e: React.FormEvent) => {
+  const addBook = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      setIsAdding(true)
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/books/add`,
         {
@@ -42,12 +44,15 @@ const Form = () => {
 
       const data = await response.json();
       if (data.success) {
+        setIsAdding(false)
         toast.success("Book Added Successfully");
         setBookData(initialBookData);
       } else {
+        setIsAdding(false)
         toast.error(data.msg);
       }
     } catch (error: any) {
+      setIsAdding(false)
       toast.error(error.message);
     }
   };
@@ -55,7 +60,7 @@ const Form = () => {
   return (
     <div className="h-[80vh] flex justify-center items-center max-sm:px-2">
       <Toaster position="bottom-right" richColors />
-      <form className="flex flex-col gap-5 w-[40vw] max-sm:w-full" onSubmit={submitBook}>
+      <form className="flex flex-col gap-5 w-[40vw] max-sm:w-full" onSubmit={addBook}>
         <input
           type="text"
           placeholder="Book Name"
@@ -102,7 +107,7 @@ const Form = () => {
           required
         />
         <button className="h-10 rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-primary-600 active:bg-primary-700 mt-5">
-          Add Book
+          {isAdding ? 'Adding...' : 'Add Book'}
         </button>
       </form>
     </div>
