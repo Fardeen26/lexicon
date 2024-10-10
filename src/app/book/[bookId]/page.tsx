@@ -2,17 +2,17 @@ import React from 'react';
 import Image from 'next/image';
 import { Book } from '@/types';
 import DownloadButton from './components/DownloadButton';
+import axios from 'axios';
 
 const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
     let book: Book | null = null;
     try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/books/${params.bookId}`, {
-            cache: 'no-store'
-        });
-        if (!response.ok) {
+        const response = await axios.get(`${process.env.FRONTEND_URL}/books/${params.bookId}`);
+        if (!response.data.success) {
             throw new Error('Error fetching book');
         }
-        book = await response.json();
+
+        book = await response.data.message;
     } catch (err: any) {
         throw new Error('Error fetching book');
     }

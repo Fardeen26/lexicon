@@ -1,4 +1,5 @@
 "use client";
+import axios from "axios";
 import React, { useState } from "react";
 import { Toaster, toast } from "sonner";
 
@@ -26,30 +27,22 @@ const Form = () => {
     setBookData({ ...bookData, [e.target.name]: e.target.value });
   };
 
+  
   const addBook = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       setIsAdding(true)
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/books/add`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(bookData),
-        }
-      );
+      const response = await axios.post(`${process.env.FRONTEND_URL}/books/add`, {
+        body: JSON.stringify(bookData)
+      });
 
-      const data = await response.json();
-      if (data.success) {
+      if (response.data.success) {
         setIsAdding(false)
         toast.success("Book Added Successfully");
         setBookData(initialBookData);
       } else {
         setIsAdding(false)
-        toast.error(data.msg);
+        toast.error(response.data.message);
       }
     } catch (error: any) {
       setIsAdding(false)

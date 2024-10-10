@@ -6,7 +6,3 @@ export type Book = {
     file: string;
     author: string;
 };
-
-export type Author = {
-    name: string;
-};
