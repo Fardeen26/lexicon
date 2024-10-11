@@ -8,11 +8,7 @@ const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
     let book: Book | null = null;
     try {
         const response = await axios.get(`${process.env.FRONTEND_URL}/books/${params.bookId}`);
-        if (!response.data.success) {
-            throw new Error('Error fetching book');
-        }
-
-        book = await response.data.message;
+        book = await response.data;
     } catch (err: any) {
         throw new Error('Error fetching book');
     }

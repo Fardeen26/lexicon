@@ -19,7 +19,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
         }
     } catch (error) {
         return Response.json(
-            {message: error, success: false}, 
+            {message: "Error while fetching books", success: false}, 
             { status: 501 }
         )
     }

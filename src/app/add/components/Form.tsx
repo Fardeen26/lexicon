@@ -28,27 +28,28 @@ const Form = () => {
   };
 
   
-  const addBook = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
+ const addBook = async (e: any) => {
+      e.preventDefault();
       setIsAdding(true)
-      const response = await axios.post(`${process.env.FRONTEND_URL}/books/add`, {
-        body: JSON.stringify(bookData)
-      });
+      try {
+          const response = await axios.post(`${process.env.FRONTEND_URL}/books/add`, bookData, {
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json'
+            }
+        });
 
-      if (response.data.success) {
-        setIsAdding(false)
-        toast.success("Book Added Successfully");
-        setBookData(initialBookData);
-      } else {
-        setIsAdding(false)
-        toast.error(response.data.message);
-      }
-    } catch (error: any) {
-      setIsAdding(false)
-      toast.error(error.message);
-    }
-  };
+        const data = await response.data;
+        if(data.success) {
+          toast.success("Book Added Successfully :)")
+          setIsAdding(false)
+        }else {
+          toast.error("Something went wrong :(")
+        }
+      } catch (error: any) {
+        toast.error(error.message)
+      }    
+} 
 
   return (
     <div className="h-[80vh] flex justify-center items-center max-sm:px-2">
