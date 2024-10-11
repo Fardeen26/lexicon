@@ -6,7 +6,6 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     try {
         const { id } = params;
         const book: BookI | null = await Book.findById(id);
-        console.log(book)
         if (book) {
             return Response.json(
                 {message: book, success: true}, 
