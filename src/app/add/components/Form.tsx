@@ -32,23 +32,19 @@ const Form = () => {
       e.preventDefault();
       setIsAdding(true)
       try {
-          const response = await axios.post(`${process.env.FRONTEND_URL}/books/add`, bookData, {
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json'
-            }
-        });
-
-        const data = await response.data;
-        if(data.success) {
+        const response = await axios.post(`https://lexicon-backend-f6ri.onrender.com/api/books/add`, bookData);
+ 
+        if(response.data.success) {
           toast.success("Book Added Successfully :)")
-          setIsAdding(false)
         }else {
           toast.error("Something went wrong :(")
         }
       } catch (error: any) {
-        toast.error(error.message)
-      }    
+        let zodError = error?.response?.data?.msg;
+        toast.error(`${zodError ? zodError : error}`)
+      } finally {
+        setIsAdding(false)
+      }
 } 
 
   return (
@@ -62,6 +58,7 @@ const Form = () => {
           value={bookData.title}
           onChange={handleOnChange}
           className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
+          min={5}
           required
         />
         <input
