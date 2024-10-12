@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Footer = () => {
     return (
-        <footer className="border-t py-5 px-10 text-center text-xs flex justify-between">
+        <footer className="border-t py-5 px-10 max-sm:px-4 text-center text-xs flex justify-between max-sm:flex-col max-sm:items-center max-sm:gap-2">
             <span>© 2024 Lexicon&#39;s Book All rights reserved.</span>
             <span className='gap-3 flex'>
                 <Link href="https://x.com/fardeen14693425" target='_blank' className='underline'>Twitter</Link>

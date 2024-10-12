@@ -5,7 +5,7 @@ import BookIcon from '@/utils/BookIcon';
 
 const Navbar = () => {
     return (
-        <nav className="border-b">
+        <nav className="border-b max-sm:px-4 max-[1285px]:px-10">
             <div className="max-w-7xl mx-auto flex items-center justify-between py-4">
                 <div>
                     <Link href={'/'}>
