@@ -3,7 +3,13 @@ import { Book } from '@/types';
 import axios from 'axios';
 
 const BookList = async () => {
-    const response = await axios.get(`${process.env.FRONTEND_URL}/books`);
+    const response = await axios.get(`${process.env.FRONTEND_URL}/books`, 
+        {
+            headers: {
+                'Cache-Control': 'no-cache',
+            },
+        }
+    );
     
     const books = await response.data;
 
