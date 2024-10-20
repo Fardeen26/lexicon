@@ -5,10 +5,14 @@ import DownloadButton from './components/DownloadButton';
 import axios from 'axios';
 
 const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
+
     let book: Book | null = null;
     try {
-        const response = await axios.get(`${process.env.FRONTEND_URL}/books/${params.bookId}`);
-        book = await response.data;
+        const isServer = typeof window === 'undefined';
+        const apiUrl = isServer ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/${params.bookId}` : `/api/books/${params.bookId}`;
+
+        const response = await axios.get(apiUrl);
+        book = await response.data.message; -2
     } catch (err: any) {
         throw new Error('Error fetching book');
     }

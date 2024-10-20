@@ -3,9 +3,8 @@ import Book from "@/models/Book";
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const parsedBody = JSON.parse(body.body);
 
-        const { title, description, bookImage, bookPdfUrl, author } = parsedBody;
+        const { title, description, bookImage, bookPdfUrl, author } = body;
 
         const book = new Book({
             title,
@@ -24,8 +23,8 @@ export async function POST(req: Request) {
 
     } catch (error) {
         return Response.json(
-            { message: error ,success: false},
-            { status: 500 }
+            { message: `Error While Adding Book ${error}`, success: false},
+            { status: 501 }
         )
     }
 

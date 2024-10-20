@@ -27,25 +27,32 @@ const Form = () => {
     setBookData({ ...bookData, [e.target.name]: e.target.value });
   };
 
-  
- const addBook = async (e: any) => {
-      e.preventDefault();
-      setIsAdding(true)
-      try {
-        const response = await axios.post(`https://lexicon-backend-f6ri.onrender.com/api/books/add`, bookData);
- 
-        if(response.data.success) {
-          toast.success("Book Added Successfully :)")
-        }else {
-          toast.error("Something went wrong :(")
-        }
-      } catch (error: any) {
-        let zodError = error?.response?.data?.msg;
-        toast.error(`${zodError ? zodError : error}`)
-      } finally {
-        setIsAdding(false)
+
+  const addBook = async (e: any) => {
+    e.preventDefault();
+
+    const isServer = typeof window === 'undefined';
+
+    const apiUrl = isServer
+      ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/add`
+      : '/api/books/add';
+
+    setIsAdding(true)
+    try {
+      const response = await axios.post(apiUrl, bookData);
+
+      if (response.data.success) {
+        toast.success("Book Added Successfully :)")
+      } else {
+        toast.error("Something went wrong :(")
       }
-} 
+    } catch (error: any) {
+      let zodError = error?.response?.data?.msg;
+      toast.error(`${zodError ? zodError : error}`)
+    } finally {
+      setIsAdding(false)
+    }
+  }
 
   return (
     <div className="h-[80vh] flex justify-center items-center max-sm:px-2">
