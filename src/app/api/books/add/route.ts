@@ -1,6 +1,9 @@
+import dbConnect from "@/lib/dbConnect";
 import Book from "@/models/Book";
 
 export async function POST(req: Request) {
+    await dbConnect();
+
     try {
         const body = await req.json();
 

@@ -1,8 +1,11 @@
+import dbConnect from "@/lib/dbConnect";
 import Book from "@/models/Book";
 import { Book as BookI } from "@/types";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+    await dbConnect();
+
     try {
         const { id } = params;
         const book: BookI | null = await Book.findById(id);
