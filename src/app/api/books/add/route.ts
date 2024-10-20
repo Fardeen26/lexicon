@@ -1,7 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
 import Book from "@/models/Book";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
     await dbConnect();
 
     try {
@@ -18,17 +19,20 @@ export async function POST(req: Request) {
         });
 
         await book.save();
-        return Response.json(
-            {message: 'Book Added Successfully!', success: true},
-            { status: 200 }
 
-        )
+        const response = NextResponse.json(
+            { message: 'Book Added Successfully!', success: true },
+            { status: 200 }
+        );
+        
+        response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+
+        return response;
 
     } catch (error) {
-        return Response.json(
-            { message: `Error While Adding Book ${error}`, success: false},
-            { status: 501 }
-        )
+        return NextResponse.json(
+            { message: `Error While Adding Book: ${error}`, success: false },
+            { status: 500 }
+        );
     }
-
 }
