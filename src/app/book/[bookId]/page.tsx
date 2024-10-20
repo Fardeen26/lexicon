@@ -12,7 +12,7 @@ const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
         const apiUrl = isServer ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/${params.bookId}` : `/api/books/${params.bookId}`;
 
         const response = await axios.get(apiUrl);
-        book = await response.data.message; -2
+        book = await response.data.message;
     } catch (err: any) {
         throw new Error('Error fetching book');
     }

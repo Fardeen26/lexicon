@@ -2,6 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Toaster, toast } from "sonner";
+import { useRouter } from 'next/navigation'
 
 interface BookData {
   title: string;
@@ -12,6 +13,8 @@ interface BookData {
 }
 
 const Form = () => {
+  const router = useRouter()
+
   const initialBookData: BookData = {
     title: "",
     description: "",
@@ -43,6 +46,7 @@ const Form = () => {
 
       if (response.data.success) {
         toast.success("Book Added Successfully :)")
+        router.push('/')
       } else {
         toast.error("Something went wrong :(")
       }
