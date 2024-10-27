@@ -1,21 +1,26 @@
-import React from 'react';
 import Image from 'next/image';
 import { Book } from '@/types';
 import DownloadButton from './components/DownloadButton';
-import axios from 'axios';
 
-const SingleBookPage = async ({ params }: { params: { bookId: string } }) => {
+interface SingleBookPageProps {
+    params: { bookId: string };
+}
 
-    let book: Book | null = null;
-    try {
-        const isServer = typeof window === 'undefined';
-        const apiUrl = isServer ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/${params.bookId}` : `/api/books/${params.bookId}`;
+async function fetchBookById(bookId: string): Promise<Book | null> {
+    const apiUrl = `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/${bookId}`;
 
-        const response = await axios.get(apiUrl);
-        book = await response.data.message;
-    } catch (err: any) {
-        throw new Error('Error fetching book');
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+        console.error('Error fetching book:', response.statusText);
+        return null;
     }
+
+    const data = await response.json();
+    return data.message as Book;
+}
+
+const SingleBookPage = async ({ params }: SingleBookPageProps) => {
+    const book = await fetchBookById(params.bookId);
 
     if (!book) {
         throw new Error('Book not found');
