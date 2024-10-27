@@ -11,7 +11,7 @@ const Banner = () => {
                     className="h-72 w-full rounded-lg"
                     height={0}
                     width={0}
-                    // sizes="100vw"
+                // sizes="100vw"
                 />
                 <div className="absolute inset-0 h-full rounded-lg opacity-30" />
                 <Image
@@ -23,7 +23,7 @@ const Banner = () => {
                     sizes="100vw"
                     style={{ width: 'auto', height: '18rem' }}
                 />
-                <h3 className="absolute left-10 max-sm:left-0 top-1/2 w-full max-w-3xl -translate-y-1/2 text-5xl max-sm:text-2xl font-semibold tracking-tight text-white max-sm:!text-black max-sm:text-center max-sm:px-2">
+                <h3 className="absolute left-10 max-sm:left-0 top-1/2 w-full max-w-3xl -translate-y-1/2 text-5xl max-sm:text-2xl font-semibold tracking-tight text-black max-sm:text-center max-sm:px-2">
                     Connect, Share and Trade Your Favourite Reads...
                 </h3>
             </div>

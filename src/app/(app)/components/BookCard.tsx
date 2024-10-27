@@ -3,9 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
 
-const BookCard = ({book}: {book: Book}) => {
-  return (
-    <div className="flex gap-5 border p-5 shadow-md rounded-xl">
+const BookCard = ({ book }: { book: Book }) => {
+    return (
+        <div className="flex gap-5 border-black p-5 shadow-md rounded-xl">
             <Image
                 src={book.coverImage}
                 alt={book.title}
@@ -27,7 +27,7 @@ const BookCard = ({book}: {book: Book}) => {
                 </Link>
             </div>
         </div>
-  )
+    )
 }
 
 export default BookCard

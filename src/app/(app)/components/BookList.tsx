@@ -2,7 +2,7 @@ import BookCard from './BookCard';
 import { Book } from '@/types';
 
 const BookList = async () => {
-    const apiUrl = `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books`;
+    const apiUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/api/books`;
 
     const response = await fetch(apiUrl, { cache: 'no-store' });
     const data = await response.json();

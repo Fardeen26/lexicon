@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Toaster, toast } from "sonner";
 import { useRouter } from 'next/navigation'
+import { z } from 'zod'
 
 interface BookData {
   title: string;
@@ -11,6 +12,24 @@ interface BookData {
   bookPdfUrl: string;
   author: string;
 }
+
+const bookSchema = z.object({
+  title: z.string({ required_error: "Title is required!" })
+    .min(3, { message: "Book Name must be at least 5 characters" }),
+
+  description: z.string({ required_error: "Description is required!" })
+    .min(10, { message: "Description must be at least 10 characters" })
+    .max(200, { message: "Description must be no more than 200 characters" }),
+
+  bookImage: z.string({ required_error: "Book Image URL is required!" })
+    .url({ message: "Image URL is invalid" }),
+
+  bookPdfUrl: z.string({ required_error: "Book PDF URL is required!" })
+    .url({ message: "PDF URL is invalid" }),
+
+  author: z.string({ required_error: "Author Name is required!" })
+    .min(3, { message: "Author Name must be at least 5 characters" })
+});
 
 const Form = () => {
   const router = useRouter()
@@ -39,6 +58,14 @@ const Form = () => {
     const apiUrl = isServer
       ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/add`
       : '/api/books/add';
+
+    const result = bookSchema.safeParse(bookData);
+
+    if (!result.success) {
+      result.error.errors.forEach((err) => toast.error(err.message));
+      return;
+    }
+
 
     setIsAdding(true)
     try {
