@@ -1,9 +1,11 @@
 "use client";
+
 import axios from "axios";
 import React, { useState } from "react";
 import { Toaster, toast } from "sonner";
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
+import { useSession } from "next-auth/react";
 
 interface BookData {
   title: string;
@@ -31,19 +33,28 @@ const bookSchema = z.object({
     .min(3, { message: "Author Name must be at least 5 characters" })
 });
 
+const initialBookData: BookData = {
+  title: "",
+  description: "",
+  bookImage: "",
+  bookPdfUrl: "",
+  author: "",
+};
+
 const Form = () => {
-  const router = useRouter()
-
-  const initialBookData: BookData = {
-    title: "",
-    description: "",
-    bookImage: "",
-    bookPdfUrl: "",
-    author: "",
-  };
-
   const [bookData, setBookData] = useState<BookData>(initialBookData);
   const [isAdding, setIsAdding] = useState<Boolean>(false)
+  const router = useRouter()
+  const { status } = useSession();
+
+  if (status === "loading") {
+    return <div>Loading...</div>
+  }
+
+  if (status === "unauthenticated") {
+    return <div>You are unauthorized</div>
+  }
+
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookData({ ...bookData, [e.target.name]: e.target.value });
