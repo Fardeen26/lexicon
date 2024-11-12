@@ -15,7 +15,7 @@ const Navbar = () => {
             router.push('/add')
         }
         else {
-            signIn()
+            router.push('/signin')
         }
     }
     return (

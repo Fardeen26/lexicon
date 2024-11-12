@@ -48,7 +48,7 @@ const Form = () => {
   const { status } = useSession();
 
   if (status === "loading") {
-    return <div>Loading...</div>
+    return <div className="h-[80vh] flex justify-center items-center">Loading...</div>
   }
 
   if (status === "unauthenticated") {
