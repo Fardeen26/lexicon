@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document, model } from 'mongoose';
+import { string } from 'zod';
 
 export interface BookModel extends Document {
     title: string;
@@ -6,13 +7,15 @@ export interface BookModel extends Document {
     coverImage: string;
     file: string;
     author: string;
+    creatorName: string;
+    creatorImage: string
 }
 
 const bookSchema: Schema<BookModel> = new Schema({
     title: {
         type: String,
         required: true,
-        minlength: 5 
+        minlength: 5
     },
     description: {
         type: String,
@@ -32,6 +35,12 @@ const bookSchema: Schema<BookModel> = new Schema({
         type: String,
         required: true,
         minlength: 5
+    },
+    creatorName: {
+        type: String
+    },
+    creatorImage: {
+        type: String
     }
 });
 

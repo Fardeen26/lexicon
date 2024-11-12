@@ -1,7 +1,7 @@
 "use client";
 
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
@@ -13,24 +13,24 @@ interface BookData {
   bookImage: string;
   bookPdfUrl: string;
   author: string;
+  creatorName: string,
+  creatorImage: string
 }
 
 const bookSchema = z.object({
   title: z.string({ required_error: "Title is required!" })
     .min(3, { message: "Book Name must be at least 5 characters" }),
-
   description: z.string({ required_error: "Description is required!" })
     .min(10, { message: "Description must be at least 10 characters" })
     .max(200, { message: "Description must be no more than 200 characters" }),
-
   bookImage: z.string({ required_error: "Book Image URL is required!" })
     .url({ message: "Image URL is invalid" }),
-
   bookPdfUrl: z.string({ required_error: "Book PDF URL is required!" })
     .url({ message: "PDF URL is invalid" }),
-
   author: z.string({ required_error: "Author Name is required!" })
-    .min(3, { message: "Author Name must be at least 5 characters" })
+    .min(3, { message: "Author Name must be at least 5 characters" }),
+  creatorName: z.string(),
+  creatorImage: z.string()
 });
 
 const initialBookData: BookData = {
@@ -39,22 +39,33 @@ const initialBookData: BookData = {
   bookImage: "",
   bookPdfUrl: "",
   author: "",
+  creatorName: "",
+  creatorImage: ""
 };
 
 const Form = () => {
   const [bookData, setBookData] = useState<BookData>(initialBookData);
   const [isAdding, setIsAdding] = useState<Boolean>(false)
   const router = useRouter()
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    if (session) {
+      setBookData((prevBookData) => ({
+        ...prevBookData,
+        creatorName: session.user?.name ?? "",
+        creatorImage: session.user?.image ?? ""
+      }));
+    }
+  }, [session]);
 
   if (status === "loading") {
     return <div className="h-[80vh] flex justify-center items-center">Loading...</div>
   }
 
   if (status === "unauthenticated") {
-    return <div>You are unauthorized</div>
+    return <div className="h-[80vh] flex justify-center items-center">You are unauthorized</div>
   }
-
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBookData({ ...bookData, [e.target.name]: e.target.value });
@@ -70,13 +81,16 @@ const Form = () => {
       ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/add`
       : '/api/books/add';
 
+    if (!bookData.creatorName || !bookData.creatorImage) {
+      return alert('Please fill in your name and image')
+    }
+
     const result = bookSchema.safeParse(bookData);
 
     if (!result.success) {
       result.error.errors.forEach((err) => toast.error(err.message));
       return;
     }
-
 
     setIsAdding(true)
     try {

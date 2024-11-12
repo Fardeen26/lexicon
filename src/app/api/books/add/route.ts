@@ -25,7 +25,9 @@ const bookSchema = z.object({
 
   author: z
     .string({ required_error: "Author Name is required!" })
-    .min(3, { message: "Author Name must be at least 5 characters" })
+    .min(3, { message: "Author Name must be at least 5 characters" }),
+  creatorName: z.string(),
+  creatorImage: z.string()
 });
 
 export async function POST(req: NextRequest) {
@@ -46,6 +48,8 @@ export async function POST(req: NextRequest) {
       coverImage: parsedData.bookImage,
       file: parsedData.bookPdfUrl,
       author: parsedData.author,
+      creatorName: parsedData.creatorName,
+      creatorImage: parsedData.creatorImage
     });
 
     await book.save();
