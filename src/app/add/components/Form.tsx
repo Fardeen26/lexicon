@@ -160,7 +160,7 @@ const Form = () => {
           className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
           required
         />
-        <button className="h-10 rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-primary-600 active:bg-primary-700 border hover:bg-transparent hover:border-black hover:text-black">
+        <button className="h-10 rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-primary-600 active:bg-primary-700 border hover:bg-transparent hover:border-black hover:text-black dark:hover:bg-white dark:hover:text-black">
           {isAdding ? 'Adding...' : 'Add Book'}
         </button>
       </form>

@@ -29,7 +29,7 @@ const SingleBookPage = async ({ params }: SingleBookPageProps) => {
 
     return (
         <div className="mx-auto grid max-sm:grid-cols-1 max-w-6xl grid-cols-3 gap-10 px-5 max-sm:px-4 py-10 h-[80.5vh] max-sm:h-full">
-            <div className="col-span-2 pr-16 text-primary-950">
+            <div className="col-span-2 pr-16 text-primary-950 dark:text-white">
                 <h2 className="mb-2 text-5xl font-bold leading-[1.1]">{book.title}</h2>
                 <span className="font-semibold">by {book.author}</span>
                 <div className='flex space-x-2 mt-2'>
