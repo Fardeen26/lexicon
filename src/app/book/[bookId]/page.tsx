@@ -28,14 +28,21 @@ const SingleBookPage = async ({ params }: SingleBookPageProps) => {
     }
 
     return (
-        <div className="mx-auto grid max-w-6xl grid-cols-3 gap-10 px-5 py-10 h-[80.5vh]">
+        <div className="mx-auto grid max-sm:grid-cols-1 max-w-6xl grid-cols-3 gap-10 px-5 max-sm:px-4 py-10 h-[80.5vh] max-sm:h-full">
             <div className="col-span-2 pr-16 text-primary-950">
-                <h2 className="mb-5 text-5xl font-bold leading-[1.1]">{book.title}</h2>
+                <h2 className="mb-2 text-5xl font-bold leading-[1.1]">{book.title}</h2>
                 <span className="font-semibold">by {book.author}</span>
-                <p className="mt-5 text-lg leading-8">{book.description}</p>
+                <div className='flex space-x-2 mt-2'>
+                    <span className='font-semibold'>creator:</span>
+                    <div className='flex space-x-2'>
+                        <span><Image src={book.creatorImage} alt='creator image' width={20} height={20} className='rounded-full' /></span>
+                        <span>{book.creatorName}</span>
+                    </div>
+                </div>
+                <p className="mt-7 text-lg leading-8">{book.description}</p>
                 <DownloadButton fileLink={book.file} />
             </div>
-            <div className="flex justify-end">
+            <div className="flex justify-end max-sm:justify-center">
                 <Image
                     src={book.coverImage}
                     alt={book.title}

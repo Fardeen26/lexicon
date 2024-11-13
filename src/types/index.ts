@@ -5,4 +5,6 @@ export type Book = {
     coverImage: string;
     file: string;
     author: string;
+    creatorName: string;
+    creatorImage: string
 };
