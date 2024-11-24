@@ -14,7 +14,7 @@ const BookList = async () => {
     const books: Book[] = data.message;
 
     return (
-        <div className="grid min-h-screen grid-cols-1 gap-8 md:grid-cols-3 max-w-7xl mx-auto mb-10 max-sm:px-4 max-[1285px]:px-7">
+        <div className="grid min-h-screen grid-cols-1 gap-8 md:grid-cols-3 max-w-7xl mx-auto mb-12 max-sm:px-4 max-[1285px]:px-7">
             {books.length === 0 && <p>No books found.</p>}
             {books.map((book: Book) => (
                 <BookCard key={book._id} book={book} />
