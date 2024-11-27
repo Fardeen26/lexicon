@@ -1,16 +1,9 @@
-import Banner from "@/app/(app)/components/Banner";
-import BookList from "./components/BookList";
-import { Suspense } from "react";
-import Loading from "@/components/Loading";
-
+import LandingPage from "./components/LandingPage";
 
 export default async function Home() {
   return (
     <div>
-      <Banner />
-      <Suspense fallback={<Loading />}>
-      </Suspense>
-      <BookList />      
-      </div>
+      <LandingPage />
+    </div>
   );
 }

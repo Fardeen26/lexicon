@@ -6,6 +6,8 @@ import { Toaster, toast } from "sonner";
 import { useRouter } from 'next/navigation'
 import { z } from 'zod'
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 interface BookData {
   title: string;
@@ -64,7 +66,7 @@ const Form = () => {
   }
 
   if (status === "unauthenticated") {
-    return <div className="h-[80vh] flex justify-center items-center">You are unauthorized</div>
+    router.replace('/signin')
   }
 
   const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,7 +80,7 @@ const Form = () => {
     const isServer = typeof window === 'undefined';
 
     const apiUrl = isServer
-      ? `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/add`
+      ? `${process.env.FRONTEND_URL}/api/books/add`
       : '/api/books/add';
 
     if (!bookData.creatorName || !bookData.creatorImage) {
@@ -98,7 +100,7 @@ const Form = () => {
 
       if (response.data.success) {
         toast.success("Book Added Successfully :)")
-        router.push('/')
+        router.push('/books')
       } else {
         toast.error("Something went wrong :(")
       }
@@ -111,58 +113,18 @@ const Form = () => {
   }
 
   return (
-    <div className="h-[80vh] flex justify-center items-center max-sm:px-2">
+    <div className="h-[83vh] flex justify-center items-center max-sm:px-2">
       <Toaster position="bottom-right" richColors />
       <form className="flex flex-col gap-5 w-[40vw] max-sm:w-full" onSubmit={addBook}>
-        <input
-          type="text"
-          placeholder="Book Name"
-          name="title"
-          value={bookData.title}
-          onChange={handleOnChange}
-          className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
-          min={5}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Description"
-          name="description"
-          value={bookData.description}
-          onChange={handleOnChange}
-          className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Book Image Url"
-          name="bookImage"
-          value={bookData.bookImage}
-          onChange={handleOnChange}
-          className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Book PDF Url"
-          name="bookPdfUrl"
-          value={bookData.bookPdfUrl}
-          onChange={handleOnChange}
-          className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Author"
-          name="author"
-          value={bookData.author}
-          onChange={handleOnChange}
-          className="px-5 py-2 w-full border border-black placeholder:text-black focus:placeholder:text-gray-400 rounded-lg text-black"
-          required
-        />
-        <button className="h-10 rounded-md bg-primary-500 px-4 py-2 text-sm font-medium text-white transition-all hover:bg-primary-600 active:bg-primary-700 border hover:bg-transparent hover:border-black hover:text-black dark:hover:bg-white dark:hover:text-black">
+        <Input placeholder="Book Name" name="title" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />
+        <Input placeholder="Book Description" name="description" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />
+        <Input placeholder="Book Image Url" name="bookImage" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />
+        <Input placeholder="Book PDF Url" name="bookPdfUrl" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />
+        <Input placeholder="Author" name="author" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />
+
+        <Button>
           {isAdding ? 'Adding...' : 'Add Book'}
-        </button>
+        </Button>
       </form>
     </div>
   );

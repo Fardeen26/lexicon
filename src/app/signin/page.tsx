@@ -3,7 +3,7 @@ import SignIn from './components/SignIn'
 
 const page = () => {
     return (
-        <div className='h-[80vh] flex justify-center items-center'>
+        <div className='h-[83vh] flex justify-center items-center'>
             <SignIn />
         </div>
     )
