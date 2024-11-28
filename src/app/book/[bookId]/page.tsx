@@ -16,7 +16,6 @@ async function fetchBookById(bookId: string): Promise<Book | null> {
     }
 
     const data = await response.json();
-    console.log("data is here", data)
     return data.message as Book;
 }
 
