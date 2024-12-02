@@ -11,7 +11,7 @@ import { Button } from '@/components/ui/button';
 const BookCard = ({ book }: { book: Book }) => {
     return (
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Card className="overflow-hidden h-[95vh] max-[1285px]:h-[72vh] max-sm:h-fit">
+            <Card className="overflow-hidden min-h-[85vh] max-[1285px]:h-[72vh] max-sm:h-fit">
                 <CardHeader className="p-0">
                     <div className="aspect-[3/4] overflow-hidden">
                         <Image
