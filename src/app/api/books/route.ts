@@ -2,8 +2,6 @@ import { Book as BookI } from "@/types";
 import Book from "@/models/Book";
 import dbConnect from "@/lib/dbConnect";
 
-export const runtime = "edge"
-
 export async function GET(req: Request) {
     await dbConnect();
     try {
