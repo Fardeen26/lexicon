@@ -18,13 +18,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-950 dark:to-neutral-900`}>
-        <Providers>
+      <Providers>
+        <body className={`${inter.className} min-h-screen bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-neutral-950 dark:to-neutral-900`}>
           <Navbar />
           {children}
-          <Footer />
-        </Providers>
-      </body>
+        </body>
+        <Footer />
+      </Providers>
     </html>
   );
 }

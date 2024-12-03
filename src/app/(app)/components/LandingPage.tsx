@@ -21,7 +21,7 @@ export type Book = {
 
 const LandingPage = () => {
     return (
-        <main className="container py-8">
+        <main className="py-8">
             <section className="relative mx-auto max-w-5xl py-20">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -29,10 +29,10 @@ const LandingPage = () => {
                     transition={{ duration: 0.5 }}
                     className="flex flex-col items-center gap-8 text-center"
                 >
-                    <h1 className="bg-gradient-to-r from-neutral-900 to-neutral-600 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl lg:text-7xl dark:from-neutral-50 dark:to-neutral-300">
+                    <h1 className="bg-gradient-to-r from-neutral-900 to-neutral-600 bg-clip-text text-5xl font-bold tracking-tight text-transparent sm:text-6xl lg:text-7xl dark:from-neutral-50 dark:to-neutral-300 max-lg:px-4">
                         Connect, Share and Trade Your Favourite Reads...
                     </h1>
-                    <p className="max-w-2xl text-lg text-muted-foreground">
+                    <p className="max-w-2xl text-lg text-muted-foreground max-sm:px-1">
                         Join our community of book lovers. Discover new books, share your favorites, and connect with fellow readers.
                     </p>
                     <div className="flex gap-4">
