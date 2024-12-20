@@ -1,11 +1,11 @@
-import { Book as BookI } from "@/types";
-import Book from "@/models/Book";
 import dbConnect from "@/lib/dbConnect";
+import { Book, CreatorModel } from "@/models/Book";
 
 export async function GET(req: Request) {
     await dbConnect();
     try {
-        const books: BookI[] = await Book.find({});
+        const books = await Book.find({}).populate<{ creator: CreatorModel }>('creator');
+
         return new Response(
             JSON.stringify({
                 message: books,

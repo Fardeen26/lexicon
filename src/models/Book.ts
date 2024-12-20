@@ -1,5 +1,27 @@
-import mongoose, { Schema, Document, model } from 'mongoose';
-import { string } from 'zod';
+import mongoose, { Schema, Document, Types } from 'mongoose';
+
+export interface CreatorModel extends Document {
+    name: string;
+    email: string;
+    image: string;
+}
+
+const creatorSchema = new Schema<CreatorModel>({
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
+    },
+});
+
+const Creator = mongoose.models.Creator || mongoose.model<CreatorModel>('Creator', creatorSchema);
 
 export interface BookModel extends Document {
     title: string;
@@ -7,8 +29,7 @@ export interface BookModel extends Document {
     coverImage: string;
     file: string;
     author: string;
-    creatorName: string;
-    creatorImage: string
+    creator?: Types.ObjectId;
 }
 
 const bookSchema: Schema<BookModel> = new Schema({
@@ -21,7 +42,7 @@ const bookSchema: Schema<BookModel> = new Schema({
         type: String,
         required: true,
         minlength: 10,
-        maxlength: 200,
+        maxlength: 2000
     },
     coverImage: {
         type: String,
@@ -36,15 +57,14 @@ const bookSchema: Schema<BookModel> = new Schema({
         required: true,
         minlength: 5
     },
-    creatorName: {
-        type: String
+    creator: {
+        type: Schema.Types.ObjectId,
+        ref: 'Creator',
+        required: true
     },
-    creatorImage: {
-        type: String
-    }
 });
 
 
 const Book = (mongoose.models.Book as mongoose.Model<BookModel>) || mongoose.model<BookModel>('Book', bookSchema);
 
-export default Book;
+export { Book, Creator };

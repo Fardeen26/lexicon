@@ -1,8 +1,8 @@
 import dbConnect from "@/lib/dbConnect";
-import Book from "@/models/Book";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { getServerSession } from "next-auth/next";
+import { Book, Creator } from "@/models/Book";
 
 
 const bookSchema = z.object({
@@ -13,7 +13,7 @@ const bookSchema = z.object({
   description: z
     .string({ required_error: "Description is required!" })
     .min(10, { message: "Description must be at least 10 characters" })
-    .max(200, { message: "Description must be no more than 200 characters" }),
+    .max(2000, { message: "Description must be no more than 2000 characters" }),
 
   bookImage: z
     .string({ required_error: "Book Image URL is required!" })
@@ -38,9 +38,21 @@ export async function POST(req: NextRequest) {
   await dbConnect();
 
   try {
+    const email = session.user?.email;
+    const name = session.user?.name;
+    const image = session.user?.image;
+    let creator = await Creator.findOne({ email });
     const body = await req.json();
 
     const parsedData = bookSchema.parse(body);
+
+    if (!creator) {
+      creator = await Creator.create({
+        name,
+        email,
+        image,
+      });
+    }
 
     const book = new Book({
       title: parsedData.title,
@@ -48,8 +60,7 @@ export async function POST(req: NextRequest) {
       coverImage: parsedData.bookImage,
       file: parsedData.bookPdfUrl,
       author: parsedData.author,
-      creatorName: parsedData.creatorName,
-      creatorImage: parsedData.creatorImage
+      creator: creator._id
     });
 
     await book.save();

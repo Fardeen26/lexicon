@@ -3,8 +3,8 @@ import Form from './components/Form'
 
 const page = () => {
   return (
-    <div>
-        <Form />
+    <div className='h-screen'>
+      <Form />
     </div>
   )
 }

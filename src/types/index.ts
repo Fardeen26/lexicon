@@ -1,3 +1,5 @@
+import { CreatorModel } from "@/models/Book";
+
 export type Book = {
     _id: string;
     title: string;
@@ -5,6 +7,5 @@ export type Book = {
     coverImage: string;
     file: string;
     author: string;
-    creatorName: string;
-    creatorImage: string
+    creator: CreatorModel;
 };

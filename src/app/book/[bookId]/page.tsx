@@ -8,7 +8,6 @@ interface SingleBookPageProps {
 
 async function fetchBookById(bookId: string): Promise<Book | null> {
     const apiUrl = `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/${bookId}`;
-
     const response = await fetch(apiUrl);
     if (!response.ok) {
         console.error('Error fetching book:', response.statusText);
@@ -21,13 +20,12 @@ async function fetchBookById(bookId: string): Promise<Book | null> {
 
 const SingleBookPage = async ({ params }: SingleBookPageProps) => {
     const book = await fetchBookById(params.bookId);
-
     if (!book) {
         throw new Error('Book not found');
     }
 
     return (
-        <div className="mx-auto grid max-sm:grid-cols-1 max-w-full grid-cols-3 gap-14 max-sm:gap-0 px-5 max-sm:px-4 py-10 h-[80.5vh] max-sm:h-full">
+        <div className="mx-auto grid max-sm:grid-cols-1 max-w-full grid-cols-3 gap-14 max-sm:gap-0 px-5 max-sm:px-4 py-10 h-screen max-sm:h-full">
 
             <div className="flex justify-end max-sm:justify-center">
                 <Image
@@ -38,6 +36,7 @@ const SingleBookPage = async ({ params }: SingleBookPageProps) => {
                     width={800}
                     sizes="100vw"
                     style={{ width: 'auto', height: '28rem' }}
+                    priority={true}
                 />
             </div>
 
@@ -48,8 +47,8 @@ const SingleBookPage = async ({ params }: SingleBookPageProps) => {
                     <div className='flex space-x-2 mt-2'>
                         <span className='font-semibold'>creator:</span>
                         <div className='flex space-x-2'>
-                            <span><Image src={book.creatorImage} alt='creator image' width={20} height={20} className='rounded-full' /></span>
-                            <span>{book.creatorName}</span>
+                            <span><Image src={book?.creator?.image ?? ''} alt='creator image' width={20} height={20} className='rounded-full' /></span>
+                            <span>{book?.creator?.name ?? ''}</span>
                         </div>
                     </div>
                     <p className="mt-7 text-lg leading-8">{book.description}</p>
