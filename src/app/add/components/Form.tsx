@@ -24,7 +24,7 @@ const bookSchema = z.object({
     .min(3, { message: "Book Name must be at least 5 characters" }),
   description: z.string({ required_error: "Description is required!" })
     .min(10, { message: "Description must be at least 10 characters" })
-    .max(200, { message: "Description must be no more than 200 characters" }),
+    .max(2000, { message: "Description must be no more than 200 characters" }),
   bookImage: z.string({ required_error: "Book Image URL is required!" })
     .url({ message: "Image URL is invalid" }),
   bookPdfUrl: z.string({ required_error: "Book PDF URL is required!" })

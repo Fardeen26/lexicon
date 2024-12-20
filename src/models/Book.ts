@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document, Types } from 'mongoose';
 
+// Creator Schema
 export interface CreatorModel extends Document {
     name: string;
     email: string;
@@ -23,6 +24,36 @@ const creatorSchema = new Schema<CreatorModel>({
 
 const Creator = mongoose.models.Creator || mongoose.model<CreatorModel>('Creator', creatorSchema);
 
+// Review Schema
+
+export interface ReviewModel extends Document {
+    comment: string;
+    rating: number;
+    createdAt: Date;
+    author: string;
+}
+
+const reviewSchema: Schema<ReviewModel> = new Schema({
+    comment: String,
+    rating: {
+        type: Number,
+        min: 1,
+        max: 5
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now(),
+    },
+    author: {
+        type: String,
+        required: true
+    }
+});
+
+const Review = (mongoose.models.Review as mongoose.Model<ReviewModel>) || mongoose.model<ReviewModel>('Review', reviewSchema);
+
+// Book Schema
+
 export interface BookModel extends Document {
     title: string;
     description: string;
@@ -30,6 +61,7 @@ export interface BookModel extends Document {
     file: string;
     author: string;
     creator?: Types.ObjectId;
+    reviews?: Types.ObjectId[];
 }
 
 const bookSchema: Schema<BookModel> = new Schema({
@@ -62,9 +94,15 @@ const bookSchema: Schema<BookModel> = new Schema({
         ref: 'Creator',
         required: true
     },
+    reviews: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+        }
+    ]
 });
 
 
 const Book = (mongoose.models.Book as mongoose.Model<BookModel>) || mongoose.model<BookModel>('Book', bookSchema);
 
-export { Book, Creator };
+export { Book, Creator, Review };
