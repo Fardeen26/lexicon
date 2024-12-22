@@ -59,7 +59,7 @@ const SingleBookPage = ({ params }: SingleBookPageProps) => {
                                 <span>{book?.creator?.name ?? ''}</span>
                             </div>
                         </div>
-                        <p className="mt-7 text-lg leading-8">{book.description}</p>
+                        <p className="mt-7 text-sm leading-6 pr-10 max-sm:pr-0">{book.description}</p>
                         <DownloadButton fileLink={book.file} />
                     </div>
                 </div>
@@ -67,7 +67,7 @@ const SingleBookPage = ({ params }: SingleBookPageProps) => {
             </div>
 
             <ReviewForm id={params.bookId} onReviewAdded={fetchBoks} />
-            {book.reviews.length > 0 && <Reviews book={book} />}
+            {book.reviews && book.reviews.length > 0 && <Reviews book={book} />}
 
         </>
     );
