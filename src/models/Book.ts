@@ -31,6 +31,7 @@ export interface ReviewModel extends Document {
     rating: number;
     createdAt: Date;
     author: string;
+    profileImage: string;
 }
 
 const reviewSchema: Schema<ReviewModel> = new Schema({
@@ -39,6 +40,9 @@ const reviewSchema: Schema<ReviewModel> = new Schema({
         type: Number,
         min: 1,
         max: 5
+    },
+    profileImage: {
+        type: String,
     },
     createdAt: {
         type: Date,

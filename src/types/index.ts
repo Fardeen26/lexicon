@@ -1,3 +1,4 @@
+import { ReviewType } from "@/components/Reviews";
 import { CreatorModel } from "@/models/Book";
 
 export type Book = {
@@ -8,4 +9,5 @@ export type Book = {
     file: string;
     author: string;
     creator: CreatorModel;
+    reviews: ReviewType[];
 };

@@ -114,7 +114,6 @@ const Form = () => {
 
   return (
     <div className="h-[83vh] flex justify-center items-center max-sm:px-2">
-      <Toaster position="bottom-right" richColors />
       <form className="flex flex-col gap-5 w-[40vw] max-sm:w-full" onSubmit={addBook}>
         <Input placeholder="Book Name" name="title" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />
         <Input placeholder="Book Description" name="description" onChange={handleOnChange} className="h-10 dark:border-gray-200 border-gray-500" />

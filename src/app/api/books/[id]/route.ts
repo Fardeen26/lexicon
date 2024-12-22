@@ -1,6 +1,5 @@
 import dbConnect from "@/lib/dbConnect";
 import { Book } from "@/models/Book";
-import { Book as BookI } from "@/types";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
@@ -8,11 +7,13 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     try {
         const { id } = params;
-        const book = await Book.findById(id).populate('creator');
+        const book = await Book.findById(id).populate('creator').populate('reviews');
+
+
         if (book) {
             return Response.json(
                 { message: book, success: true },
-                { status: 200 }
+                { status: 200 },
             )
         } else {
             return Response.json(

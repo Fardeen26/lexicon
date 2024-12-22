@@ -1,33 +1,39 @@
+"use client"
+
 import Image from 'next/image';
 import { Book } from '@/types';
 import DownloadButton from './components/DownloadButton';
 import ReviewForm from '@/components/ReviewForm';
+import Reviews from '@/components/Reviews';
+import { useCallback, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 interface SingleBookPageProps {
     params: { bookId: string };
 }
 
-async function fetchBookById(bookId: string): Promise<Book | null> {
-    const apiUrl = `${process.env.FRONTEND_URL || 'https://lexicon-sand.vercel.app'}/api/books/${bookId}`;
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-        console.error('Error fetching book:', response.statusText);
-        return null;
-    }
+const SingleBookPage = ({ params }: SingleBookPageProps) => {
+    const [book, setBook] = useState<Book>();
+    const { data: session, status } = useSession();
 
-    const data = await response.json();
-    return data.message as Book;
-}
+    const fetchBoks = useCallback(async () => {
+        try {
+            const response = await axios.get(`http://localhost:3000/api/books/${params.bookId}`);
+            setBook(response.data.message);
+        } catch (error) {
+            console.error(error);
+        }
+    }, [params.bookId, setBook]);
 
-const SingleBookPage = async ({ params }: SingleBookPageProps) => {
-    const book = await fetchBookById(params.bookId);
-    if (!book) {
-        throw new Error('Book not found');
-    }
+    useEffect(() => {
+        fetchBoks();
+    }, [session, fetchBoks, params.bookId]);
 
+    if (!book) return;
     return (
         <>
-            <div className="mx-auto grid max-sm:grid-cols-1 max-w-full grid-cols-3 gap-14 max-sm:gap-0 px-5 max-sm:px-4 py-10 h-screen max-sm:h-full">
+            <div className="mx-auto grid max-sm:grid-cols-1 max-w-full grid-cols-3 gap-14 max-sm:gap-0 px-5 max-sm:px-4 py-10 max-sm:h-full">
 
                 <div className="flex justify-end max-sm:justify-center">
                     <Image
@@ -60,7 +66,9 @@ const SingleBookPage = async ({ params }: SingleBookPageProps) => {
 
             </div>
 
-            <ReviewForm id={params.bookId} />
+            <ReviewForm id={params.bookId} onReviewAdded={fetchBoks} />
+            {book.reviews.length > 0 && <Reviews book={book} />}
+
         </>
     );
 };

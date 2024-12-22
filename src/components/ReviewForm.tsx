@@ -3,49 +3,86 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation'
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
+import { useState } from "react";
+import { LuStar } from "react-icons/lu";
+import { toast } from "sonner";
 
-export default function ReviewForm({ id }: { id: string }) {
+interface ReviewFormProps {
+    id: string;
+    onReviewAdded: () => void;
+}
+
+export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
+    const [rating, setRating] = useState<number>(1);
+    const [comment, setComment] = useState<string>("");
     const { data: session, status } = useSession();
     const router = useRouter();
 
-    if (status === "unauthenticated") {
-        router.replace('/signin')
-    }
 
-    const addReview = async () => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
+        e.preventDefault();
+        if (status === 'unauthenticated') {
+            toast.error("You need to sign in to add a review");
+            router.replace('/signin');
+            return;
+        }
         try {
             const response = await axios.post('/api/review', {
+                comment: comment,
+                rating: rating,
+                profileImage: session?.user?.image ?? '#',
                 bookId: id,
-                author: session?.user?.name,
-                comment: 'great book to read',
-                rating: 5,
+                author: session?.user?.name ?? 'Fardeen',
             })
-
-            console.log(response.data)
+            setComment("");
+            onReviewAdded();
             console.log("book review added successfully")
         } catch (error) {
-            console.error(error)
+            console.error("errro", error)
         }
     }
 
     return (
-        <div className="flex flex-col items-center justify-center w-full h-full">
-            <div className="flex flex-col items-center justify-center w-full h-full p-4 bg-white rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold">Review this book</h2>
-                <form className="w-full mt-4">
-                    <div className="flex flex-col w-full space-y-4">
-                        <div className="flex flex-col w-full">
-                            <label htmlFor="rating" className="text-sm font-semibold">Rating</label>
-                            <input type="number" id="rating" name="rating" min="1" max="5" className="w-full p-2 border border-gray-300 rounded-md" />
+        <div className="flex justify-center w-full px-10 mt-12">
+            <Card className="w-full max-w-[80vw] bg-transparent border-none shadow-none">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-bold">Write a Review</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-4">
+                            <label className="block mb-2 text-sm font-medium">Your Rating</label>
+                            <div className="flex space-x-1">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <LuStar
+                                        key={star}
+                                        className={`w-6 h-6 cursor-pointer ${star <= rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-400'
+                                            }`}
+                                        onClick={() => setRating(star)}
+                                    />
+                                ))}
+                            </div>
                         </div>
-                        <div className="flex flex-col w-full">
-                            <label htmlFor="review" className="text-sm font-semibold">Review</label>
-                            <textarea id="review" name="review" className="w-full p-2 border border-gray-300 rounded-md" />
+                        <div className="mb-4">
+                            <label htmlFor="review" className="block mb-2 text-sm font-medium">Your Review</label>
+                            <Textarea
+                                id="review"
+                                placeholder="Share your thoughts about this book..."
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                                className="w-full"
+                                rows={6}
+                            />
                         </div>
-                    </div>
-                </form>
-                <button className="w-full p-2 bg-primary-600 text-white rounded-md" onClick={addReview}>Submit</button>
-            </div>
+                        <Button type="submit" className="w-full">
+                            Submit Review
+                        </Button>
+                    </form>
+                </CardContent>
+            </Card>
         </div>
     )
 }

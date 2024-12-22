@@ -8,6 +8,7 @@ interface ReviewData {
     rating: number;
     author: string;
     bookId: string;
+    profileImage: string;
 }
 
 export async function POST(req: NextRequest) {
@@ -15,7 +16,10 @@ export async function POST(req: NextRequest) {
 
     const body: ReviewData = await req.json();
     try {
+        console.log(body)
+        console.log("book id", body.bookId)
         const book = await Book.findById(body.bookId);
+        console.log("book is here", book)
         if (!book) {
             return NextResponse.json({ success: false, message: 'Book not found' }, { status: 404 });
         }
@@ -23,8 +27,9 @@ export async function POST(req: NextRequest) {
         const review = new Review({
             comment: body.comment,
             rating: body.rating,
-            author: body.author,
             createdAt: new Date(),
+            author: body.author,
+            profileImage: body.profileImage
         });
 
         book?.reviews?.push(review as any as Types.ObjectId);
@@ -33,7 +38,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ success: true, message: 'Review added successfully' }, { status: 201 });
     } catch (error) {
-        return NextResponse.json({ success: false, message: 'Book not found', error }, { status: 500 });
+        return NextResponse.json({ success: false, message: 'Error while adding review', error }, { status: 500 });
     }
 
 }
