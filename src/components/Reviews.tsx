@@ -14,8 +14,8 @@ export interface ReviewType {
 
 export default function Reviews({ book }: { book: any }) {
     return (
-        <div className="flex justify-center w-full px-10 mt-12">
-            <Card className="w-full max-w-[80vw] bg-transparent border-none shadow-none">
+        <div className="flex justify-center w-full px-10 max-sm:px-0 mt-12">
+            <Card className="w-full max-w-[80vw] max-sm:max-w-full bg-transparent border-none shadow-none">
                 <CardContent className="flex flex-col items-start border-t border-gray-800 mt-6 pt-6">
                     <h3 className="text-xl font-semibold mb-4">Recent Reviews</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">

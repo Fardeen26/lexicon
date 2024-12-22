@@ -16,10 +16,7 @@ export async function POST(req: NextRequest) {
 
     const body: ReviewData = await req.json();
     try {
-        console.log(body)
-        console.log("book id", body.bookId)
         const book = await Book.findById(body.bookId);
-        console.log("book is here", book)
         if (!book) {
             return NextResponse.json({ success: false, message: 'Book not found' }, { status: 404 });
         }

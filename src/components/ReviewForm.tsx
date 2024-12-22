@@ -46,13 +46,14 @@ export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
             onReviewAdded();
             toast.success('Review added successfully')
         } catch (error) {
+            toast.error('Error while adding review')
             console.log("error", error)
         }
     }
 
     return (
-        <div className="flex justify-center w-full px-10 mt-12">
-            <Card className="w-full max-w-[80vw] bg-transparent border-none shadow-none">
+        <div className="flex justify-center w-full px-10 max-sm:px-0 mt-12">
+            <Card className="w-full max-w-[80vw] max-sm:max-w-full bg-transparent border-none shadow-none">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold">Write a Review</CardTitle>
                 </CardHeader>
