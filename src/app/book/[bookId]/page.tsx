@@ -19,7 +19,7 @@ const SingleBookPage = ({ params }: SingleBookPageProps) => {
 
     const fetchBoks = useCallback(async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/api/books/${params.bookId}`);
+            const response = await axios.get(`/api/books/${params.bookId}`);
             setBook(response.data.message);
         } catch (error) {
             console.error(error);
