@@ -1,4 +1,7 @@
-export const books = [
+import { ReviewType } from "@/components/Reviews";
+import { CreatorModel } from "@/models/Book";
+
+export const books: Book[] = [
     {
         _id: "67653e93cf67c47057da70f8",
         title: "Think and Grow Rich",
@@ -40,6 +43,7 @@ export type Book = {
     description: string;
     coverImage: string;
     file: string;
-    author: string;
-    creator?: string;
+    author: string,
+    creator?: CreatorModel;
+    reviews?: ReviewType[];
 };

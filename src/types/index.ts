@@ -8,6 +8,6 @@ export type Book = {
     coverImage: string;
     file: string;
     author: string;
-    creator: CreatorModel;
-    reviews: ReviewType[];
+    creator?: CreatorModel;
+    reviews?: ReviewType[];
 };

@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button'
 import BookCard from './BookCard'
 import { books } from '@/app/data/books'
 import Link from 'next/link'
+import { CreatorModel } from '@/models/Book'
+import { ReviewType } from '@/components/Reviews'
 
 export type Book = {
     _id: string;
@@ -13,9 +15,7 @@ export type Book = {
     description: string;
     coverImage: string;
     file: string;
-    author: string;
-    creatorName: string;
-    creatorImage: string
+    author: string,
 };
 
 
