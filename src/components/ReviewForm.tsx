@@ -26,22 +26,27 @@ export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
         e.preventDefault();
         if (status === 'unauthenticated') {
             toast.error("You need to sign in to add a review");
-            router.replace('/signin');
+            return router.replace('/signin');
+        }
+
+        if (!comment) {
+            toast.error("Please add a comment");
             return;
         }
         try {
-            const response = await axios.post('/api/review', {
+            await axios.post('/api/review', {
                 comment: comment,
                 rating: rating,
                 profileImage: session?.user?.image ?? '#',
                 bookId: id,
-                author: session?.user?.name ?? 'Fardeen',
+                author: session?.user?.name ?? 'Guest',
             })
             setComment("");
+            setRating(1);
             onReviewAdded();
-            console.log("book review added successfully")
+            toast.success('Review added successfully')
         } catch (error) {
-            console.error("errro", error)
+            console.log("error", error)
         }
     }
 

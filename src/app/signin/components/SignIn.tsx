@@ -4,8 +4,9 @@ import { signIn } from "next-auth/react"
 import { FcGoogle } from "react-icons/fc";
 
 const SignIn = () => {
+
     const handleClick = () => {
-        signIn('google', { callbackUrl: '/add' })
+        signIn('google', { callbackUrl: '/books' })
     }
     return (
         <div className="h-52 flex flex-col items-center">

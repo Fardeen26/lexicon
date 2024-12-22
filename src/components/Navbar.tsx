@@ -2,8 +2,6 @@
 
 import React, { useContext } from 'react'
 import Link from 'next/link';
-import HexagonIcon from '@/utils/HexagonIcon';
-import BookIcon from '@/utils/BookIcon';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { DarkModeContext } from '@/app/providers';
@@ -32,8 +30,12 @@ const Navbar = () => {
             router.push('/signin')
         }
     }
+
+    const handleSignin = () => {
+        router.push('/signin')
+    }
     return (
-        <header className="px-16 max-sm:px-4 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <header className="px-16 max-sm:px-2 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center justify-between">
                 <Link href={'/'}>
                     <div className="flex items-center gap-2">
@@ -54,12 +56,13 @@ const Navbar = () => {
                         <span className="text-xl font-bold">LEXICON</span>
                     </div>
                 </Link>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 max-sm:gap-3">
                     <Button variant="ghost" size="icon" onClick={toggleDarkMode}>
                         {
                             isDarkMode ? <LuMoonStar className="size-5" /> : <LuSunMoon className="size-5" />
                         }
                     </Button>
+                    <Button onClick={handleSignin}>SignIn</Button>
                     <Button onClick={handleAuthLogic}>Add Book</Button>
                 </div>
             </div>
