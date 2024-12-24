@@ -30,7 +30,7 @@ const SingleBookPage = ({ params }: SingleBookPageProps) => {
         fetchBoks();
     }, [session, fetchBoks, params.bookId]);
 
-    if (!book) return;
+    if (!book) return <div className='h-screen flex justify-center pt-4'>Loading...</div>;
     return (
         <>
             <div className="mx-auto grid max-sm:grid-cols-1 max-w-full grid-cols-3 gap-14 max-sm:gap-0 px-5 max-sm:px-4 py-10 max-sm:h-full">
