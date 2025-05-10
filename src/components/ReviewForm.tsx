@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import { useState } from "react";
-import { LuStar } from "react-icons/lu";
+import { LuStar, LuLoader2 } from "react-icons/lu";
 import { toast } from "sonner";
 
 interface ReviewFormProps {
@@ -18,6 +18,7 @@ interface ReviewFormProps {
 export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
     const [rating, setRating] = useState<number>(1);
     const [comment, setComment] = useState<string>("");
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const { data: session, status } = useSession();
     const router = useRouter();
 
@@ -33,6 +34,7 @@ export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
             toast.error("Please add a comment");
             return;
         }
+        setIsLoading(true);
         try {
             await axios.post('/api/review', {
                 comment: comment,
@@ -48,6 +50,8 @@ export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
         } catch (error) {
             toast.error('Error while adding review')
             console.log("error", error)
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -84,7 +88,7 @@ export default function ReviewForm({ id, onReviewAdded }: ReviewFormProps) {
                             />
                         </div>
                         <Button type="submit" className="w-full">
-                            Submit Review
+                            {isLoading ? <span className="flex items-center"><LuLoader2 className="animate-spin mr-2" /> Submitting</span> : 'Submit Review'}
                         </Button>
                     </form>
                 </CardContent>

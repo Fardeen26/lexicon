@@ -7,7 +7,12 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
     try {
         const { id } = params;
-        const book = await Book.findById(id).populate('creator').populate('reviews');
+        const book = await Book.findById(id)
+            .populate('creator')
+            .populate({
+                path: 'reviews',
+                options: { sort: { createdAt: -1 } }
+            });
 
 
         if (book) {

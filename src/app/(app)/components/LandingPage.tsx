@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button'
 import BookCard from './BookCard'
 import { books } from '@/app/data/books'
 import Link from 'next/link'
-import { CreatorModel } from '@/models/Book'
-import { ReviewType } from '@/components/Reviews'
+import { useSession } from 'next-auth/react'
 
 export type Book = {
     _id: string;
@@ -20,6 +19,7 @@ export type Book = {
 
 
 const LandingPage = () => {
+    const session = useSession()
     return (
         <main className="py-8">
             <section className="relative mx-auto max-w-5xl py-20">
@@ -36,7 +36,7 @@ const LandingPage = () => {
                         Join our community of book lovers. Discover new books, share your favorites, and connect with fellow readers.
                     </p>
                     <div className="flex gap-4">
-                        <Link href='/signin'>
+                        <Link href={session.status === 'authenticated' ? '/books' : `/signin`}>
                             <Button size="lg" className="rounded-full">
                                 Get Started
                             </Button>

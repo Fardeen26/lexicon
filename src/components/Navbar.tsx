@@ -2,7 +2,7 @@
 
 import React, { useContext } from 'react'
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { DarkModeContext } from '@/app/providers';
 import { LuMoonStar, LuSunMoon } from "react-icons/lu";
@@ -34,6 +34,7 @@ const Navbar = () => {
     const handleSignin = () => {
         router.push('/signin')
     }
+
     return (
         <header className="px-16 max-sm:px-2 sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container flex h-16 items-center justify-between">
@@ -62,7 +63,9 @@ const Navbar = () => {
                             isDarkMode ? <LuMoonStar className="size-5" /> : <LuSunMoon className="size-5" />
                         }
                     </Button>
-                    <Button onClick={handleSignin}>SignIn</Button>
+                    <Button onClick={session.status === 'authenticated' ? () => signOut() : handleSignin}>
+                        {session.status === 'authenticated' ? 'Logout' : 'Sign In'}
+                    </Button>
                     <Button onClick={handleAuthLogic}>Add Book</Button>
                 </div>
             </div>
